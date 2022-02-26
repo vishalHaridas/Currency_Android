@@ -1,6 +1,5 @@
 package com.nagarro.currency.domain.use_case
 
-import com.nagarro.currency.domain.model.AvailableCurrencies
 import com.nagarro.currency.domain.model.Currency
 import com.nagarro.currency.domain.model.Result
 import com.nagarro.currency.domain.repository.ConversionRatesRepository

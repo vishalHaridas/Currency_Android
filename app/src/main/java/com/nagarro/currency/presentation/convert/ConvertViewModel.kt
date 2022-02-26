@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import java.io.IOException
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,8 +23,8 @@ class ConvertViewModel @Inject constructor(
 
     private val TAG = "ConvertViewModel"
 
-    private lateinit var selectedFromCurrency: Currency
-    private lateinit var selectedToCurrency: Currency
+    lateinit var selectedFromCurrency: Currency
+    lateinit var selectedToCurrency: Currency
 
     private val _uiState: MutableStateFlow<ConvertUIState> = MutableStateFlow(ConvertUIState())
     val availableCurrenciesState = _uiState.asStateFlow()
@@ -46,21 +47,24 @@ class ConvertViewModel @Inject constructor(
             }
             .onSuccess { currencyList ->
                 Log.d(TAG, "data is: $currencyList")
-                selectedFromCurrency = currencyList[0]
-                selectedToCurrency = currencyList[0]
-
-                _uiState.value = ConvertUIState(data = currencyList)
+                try {
+                    selectedFromCurrency = currencyList[0]
+                    selectedToCurrency = currencyList[0]
+                    _uiState.value = ConvertUIState(data = currencyList)
+                } catch (e: Exception){
+                    _uiState.value = ConvertUIState(error = ConvertUIState.Error.ApiError)
+                }
             }
             .onError { e ->
-                when(e.exception){
-                  is IOException -> _uiState.value = ConvertUIState(error = ConvertUIState.Error.NetworkError)
+                when (e.exception) {
+                    is IOException -> _uiState.value =
+                        ConvertUIState(error = ConvertUIState.Error.NetworkError)
                 }
             }
             .launchIn(viewModelScope)
 
     }
 
-    //write tests
     fun swapPriceValues() {
         ensureHasValue(fromPrice)
         ensureHasValue(toPrice)
@@ -77,7 +81,7 @@ class ConvertViewModel @Inject constructor(
     }
 
     private fun performSwap() {
-        val tempPrice: String = toPrice.value!!
+        val tempPrice: String = toPrice.value
         toPrice.value = fromPrice.value
         fromPrice.value = tempPrice
     }
@@ -87,31 +91,27 @@ class ConvertViewModel @Inject constructor(
             priceValue.value = "1"
     }
 
-    //init with from to  to price conversion
-    //cases:
-    //  from has focus
-    //  to has focus
-    //  neither has focus
-
     fun updateTo() {
         ensureHasValue(fromPrice)
-        val convertedAmount = selectedFromCurrency.convertTo(selectedToCurrency, fromPrice.value.toDouble())
+        val convertedAmount =
+            selectedFromCurrency.convertTo(selectedToCurrency, fromPrice.value.toDouble())
         toPrice.value = String.format("%.2f", convertedAmount)
     }
 
-    fun setFromCurrency(currency: Currency){
+    fun setFromCurrency(currency: Currency) {
         selectedFromCurrency = currency
         updateTo()
     }
 
-    fun setToCurrency(currency: Currency){
+    fun setToCurrency(currency: Currency) {
         selectedToCurrency = currency
         updateFrom()
     }
 
     fun updateFrom() {
         ensureHasValue(toPrice)
-        val convertedAmount = selectedToCurrency.convertTo(selectedFromCurrency, toPrice.value.toDouble())
+        val convertedAmount =
+            selectedToCurrency.convertTo(selectedFromCurrency, toPrice.value.toDouble())
         fromPrice.value = String.format("%.2f", convertedAmount)
     }
 

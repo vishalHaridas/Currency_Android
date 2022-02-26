@@ -23,13 +23,11 @@
         tools:layout="@layout/fragment_rate_history">
         <argument
             android:name="from_currency"
-            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="false" />
         <argument
             android:name="to_currency"
-            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="false" />
     </fragment>
 </navigation>

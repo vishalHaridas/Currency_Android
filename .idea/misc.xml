@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Projects/Android/Currency/app/src/main/res/layout/convert_fragment.xml" value="0.25" />
         <entry key="..\:/Projects/Android/Currency/app/src/main/res/layout/currency_symbol_list_item.xml" value="0.409375" />
-        <entry key="..\:/Projects/Android/Currency/app/src/main/res/layout/fragment_rate_history.xml" value="0.3953125" />
+        <entry key="..\:/Projects/Android/Currency/app/src/main/res/layout/fragment_convert.xml" value="0.2515625" />
+        <entry key="..\:/Projects/Android/Currency/app/src/main/res/layout/fragment_rate_history.xml" value="0.33" />
+        <entry key="..\:/Projects/Android/Currency/app/src/main/res/layout/historical_rate_item.xml" value="0.409375" />
         <entry key="..\:/Projects/Android/Currency/app/src/main/res/layout/main_activity.xml" value="0.28958333333333336" />
         <entry key="..\:/Projects/Android/Currency/app/src/main/res/layout/main_fragment.xml" value="0.28958333333333336" />
         <entry key="..\:/Projects/Android/Currency/app/src/main/res/xml/network_security_config.xml" value="0.2796875" />

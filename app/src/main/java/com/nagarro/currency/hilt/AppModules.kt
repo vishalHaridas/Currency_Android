@@ -2,8 +2,11 @@ package com.nagarro.currency.hilt
 
 import com.nagarro.currency.data.remote.PricesAPI
 import com.nagarro.currency.data.repository.ConversionRatesRepositoryImpl
+import com.nagarro.currency.data.repository.HistoricalRatesRepositoryImpl
 import com.nagarro.currency.domain.repository.ConversionRatesRepository
+import com.nagarro.currency.domain.repository.HistoricalRatesRepository
 import com.nagarro.currency.domain.use_case.GetAvailableRatesUseCase
+import com.nagarro.currency.domain.use_case.GetHistoricalDataUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +25,6 @@ object AppModules {
     ): ConversionRatesRepository =
         ConversionRatesRepositoryImpl(pricesAPI)
 
-
     @Singleton
     @Provides
     fun provideGetSupportedPricesUseCase(
@@ -31,5 +33,20 @@ object AppModules {
     ): GetAvailableRatesUseCase =
         GetAvailableRatesUseCase(conversionRatesRepository, defaultDispatcher)
 
+
+    @Singleton
+    @Provides
+    fun provideHistoricalRatesRepository(
+        pricesAPI: PricesAPI
+    ): HistoricalRatesRepository =
+        HistoricalRatesRepositoryImpl(pricesAPI)
+
+    @Singleton
+    @Provides
+    fun provideGetHistoricalRatesUseCase(
+        historicalRatesRepository: HistoricalRatesRepository,
+        @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
+    ): GetHistoricalDataUseCase =
+        GetHistoricalDataUseCase(historicalRatesRepository, defaultDispatcher)
 
 }
