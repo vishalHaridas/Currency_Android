@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/convertFragment">
+
+    <fragment
+        android:id="@+id/convertFragment"
+        android:name="com.nagarro.currency.presentation.convert.ConvertFragment"
+        android:label="convert_fragment"
+        tools:layout="@layout/fragment_convert" >
+        <action
+            android:id="@+id/action_convertFragment_to_historicalFragment"
+            app:destination="@id/historicalFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/historicalFragment"
+        android:name="com.nagarro.currency.presentation.historical.RateHistoryFragment"
+        android:label="rate_history_fragment"
+        tools:layout="@layout/fragment_rate_history">
+        <argument
+            android:name="from_currency"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="to_currency"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+</navigation>
