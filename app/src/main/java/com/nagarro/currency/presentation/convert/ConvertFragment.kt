@@ -28,6 +28,7 @@ class ConvertFragment : BaseFragment<ConvertViewModel, FragmentConvertBinding>()
     override fun init() {
         super.init()
         setBindingViewModel()
+        conversionViewModel.fetchData()
         setupUIState()
         setupNavigation()
     }

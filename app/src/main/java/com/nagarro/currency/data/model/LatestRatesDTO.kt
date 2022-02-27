@@ -9,11 +9,3 @@ data class LatestRatesDTO(
     val success: Boolean = false,
     val timestamp: Int = -1
 )
-
-fun LatestRatesDTO.mapToListOfCurrencies(): List<Currency> {
-    val listOfAvailableCurrencies: ArrayList<Currency> = ArrayList()
-    rates.map {
-        listOfAvailableCurrencies.add(Currency(it.key, it.value))
-    }
-    return listOfAvailableCurrencies
-}

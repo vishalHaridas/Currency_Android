@@ -7,5 +7,4 @@ data class Currency(
 ){
     fun convertTo(toCurrency: Currency, value: Double): Double =
       toCurrency.rateAgainstEuro * value / this.rateAgainstEuro
-
 }

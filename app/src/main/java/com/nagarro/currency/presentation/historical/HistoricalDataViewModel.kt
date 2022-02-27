@@ -32,18 +32,15 @@ class HistoricalDataViewModel @Inject constructor(
     fun fetchData(request: ExchangeRateRequest) {
         historicalDataUseCase(request)
             .onLoading {
-                Log.d(TAG, "historical data is loading...")
-
                 _uiState.value = HistoricalRatesUIState(isLoading = true)
             }
             .onSuccess { historicalRates ->
-                Log.d(TAG, "data is: $historicalRates")
                 _uiState.value = HistoricalRatesUIState(data = historicalRates)
             }
             .onError { e ->
-                Log.e(TAG, "Error is: $e")
                 when(e.exception){
-                    is IOException -> _uiState.value = HistoricalRatesUIState(error = HistoricalRatesUIState.Error.NetworkError)
+                    is IOException -> _uiState.value =
+                        HistoricalRatesUIState(error = HistoricalRatesUIState.Error.NetworkError)
                 }
             }
             .launchIn(viewModelScope)

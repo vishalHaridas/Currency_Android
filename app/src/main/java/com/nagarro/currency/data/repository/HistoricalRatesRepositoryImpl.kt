@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.icu.util.Calendar
 import android.util.Log
 import com.nagarro.currency.data.model.HistoricalPriceDTO
-import com.nagarro.currency.data.model.mapToExchangeRate
+import com.nagarro.currency.data.mapper.mapToExchangeRate
 import com.nagarro.currency.data.remote.PricesAPI
 import com.nagarro.currency.domain.model.HistoricalExchangeRates
 import com.nagarro.currency.domain.model.Result

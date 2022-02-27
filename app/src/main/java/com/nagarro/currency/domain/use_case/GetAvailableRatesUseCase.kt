@@ -11,9 +11,9 @@ import javax.inject.Inject
 class GetAvailableRatesUseCase @Inject constructor(
     private val conversionRatesRepository: ConversionRatesRepository,
     @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
-): FlowUseCase<String, List<Currency>>(defaultDispatcher) {
+): FlowUseCase<String?, List<Currency>>(defaultDispatcher) {
 
-    override fun execute(parameters: String): Flow<Result<List<Currency>>> {
+    override fun execute(parameters: String?): Flow<Result<List<Currency>>> {
         return conversionRatesRepository.getLatestRates()
     }
 }

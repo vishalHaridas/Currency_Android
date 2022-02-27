@@ -1,7 +1,7 @@
 package com.nagarro.currency.data.repository
 
 import android.util.Log
-import com.nagarro.currency.data.model.mapToListOfCurrencies
+import com.nagarro.currency.data.mapper.mapToListOfCurrencies
 import com.nagarro.currency.data.remote.PricesAPI
 import com.nagarro.currency.domain.util.extension.resultFlow
 import com.nagarro.currency.domain.model.Currency

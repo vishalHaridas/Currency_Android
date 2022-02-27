@@ -21,8 +21,6 @@ class ConvertViewModel @Inject constructor(
     val availableRatesUseCase: GetAvailableRatesUseCase,
 ) : ViewModel() {
 
-    private val TAG = "ConvertViewModel"
-
     lateinit var selectedFromCurrency: Currency
     lateinit var selectedToCurrency: Currency
 
@@ -32,24 +30,16 @@ class ConvertViewModel @Inject constructor(
     val fromPrice: MutableStateFlow<String> = MutableStateFlow("1")
     val toPrice: MutableStateFlow<String> = MutableStateFlow("1")
 
-    init {
-        fetchData()
-    }
-
-    private fun fetchData() {
-        Log.d(TAG, "fetch data called")
-
-        availableRatesUseCase("")
+    fun fetchData() {
+        availableRatesUseCase(null)
             .onLoading {
-                Log.d(TAG, "supportedPrice is loading")
-
                 _uiState.value = ConvertUIState(isLoading = true)
             }
             .onSuccess { currencyList ->
-                Log.d(TAG, "data is: $currencyList")
                 try {
-                    selectedFromCurrency = currencyList[0]
-                    selectedToCurrency = currencyList[0]
+                    val firstCurrency = currencyList[0]
+                    selectedFromCurrency = firstCurrency
+                    selectedToCurrency = firstCurrency
                     _uiState.value = ConvertUIState(data = currencyList)
                 } catch (e: Exception){
                     _uiState.value = ConvertUIState(error = ConvertUIState.Error.ApiError)
