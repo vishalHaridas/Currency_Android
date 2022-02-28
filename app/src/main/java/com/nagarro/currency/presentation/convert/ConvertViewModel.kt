@@ -9,9 +9,8 @@ import com.nagarro.currency.domain.util.extension.onError
 import com.nagarro.currency.domain.util.extension.onLoading
 import com.nagarro.currency.domain.util.extension.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
@@ -26,6 +25,9 @@ class ConvertViewModel @Inject constructor(
 
     private val _uiState: MutableStateFlow<ConvertUIState> = MutableStateFlow(ConvertUIState())
     val availableCurrenciesState = _uiState.asStateFlow()
+
+    private val _performSpinnerSwap: MutableSharedFlow<String> = MutableSharedFlow()
+    val performSwap = _performSpinnerSwap.asSharedFlow()
 
     val fromPrice: MutableStateFlow<String> = MutableStateFlow("1")
     val toPrice: MutableStateFlow<String> = MutableStateFlow("1")
@@ -59,7 +61,10 @@ class ConvertViewModel @Inject constructor(
         ensureHasValue(fromPrice)
         ensureHasValue(toPrice)
 
-        performSwap()
+        viewModelScope.launch {
+            _performSpinnerSwap.emit("swap")
+        }
+
     }
 
     fun ensureFromHasValue() {
@@ -90,7 +95,7 @@ class ConvertViewModel @Inject constructor(
 
     fun setFromCurrency(currency: Currency) {
         selectedFromCurrency = currency
-        updateFrom()
+        updateTo()
     }
 
     fun setToCurrency(currency: Currency) {

@@ -99,6 +99,12 @@ class ConvertFragment : BaseFragment<ConvertViewModel, FragmentConvertBinding>()
         }
 
         lifecycleScope.launchWhenStarted {
+            conversionViewModel.performSwap.collect {
+                swapSpinnerValues()
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
             conversionViewModel.toPrice.collectLatest {
                 if (toHasFocus)
                     conversionViewModel.updateFrom()
@@ -110,6 +116,13 @@ class ConvertFragment : BaseFragment<ConvertViewModel, FragmentConvertBinding>()
                     conversionViewModel.updateTo()
             }
         }
+    }
+
+    private fun swapSpinnerValues(){
+        val tempPositionOfFrom = binding.fromSpinner.selectedItemPosition
+        val toSpinnerValuePosition = binding.toSpinner.selectedItemPosition
+        binding.fromSpinner.setSelection(toSpinnerValuePosition)
+        binding.toSpinner.setSelection(tempPositionOfFrom)
     }
 
     private fun setupUIState() {
