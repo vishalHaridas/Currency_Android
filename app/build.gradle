@@ -23,6 +23,11 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            buildConfigField "String", "FIXER_API_KEY", "\"254d467809fdb2790db638a274102730\""
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
