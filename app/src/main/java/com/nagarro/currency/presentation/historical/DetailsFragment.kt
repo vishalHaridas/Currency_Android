@@ -1,11 +1,6 @@
 package com.nagarro.currency.presentation.historical
 
-import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,21 +10,21 @@ import com.nagarro.currency.common.base.BaseFragment
 import com.nagarro.currency.databinding.FragmentRateHistoryBinding
 import com.nagarro.currency.domain.model.ExchangeRateRequest
 import com.nagarro.currency.presentation.adapter.HistoricalPricesAdapter
-import com.nagarro.currency.presentation.convert.ConvertUIState
-import com.nagarro.currency.presentation.convert.ConvertViewModel
+import com.nagarro.currency.presentation.adapter.PopularPricesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint
-class RateHistoryFragment : BaseFragment<HistoricalDataViewModel, FragmentRateHistoryBinding>() {
+class DetailsFragment : BaseFragment<DetailsViewModel, FragmentRateHistoryBinding>() {
 
-    private val historicalViewModel: HistoricalDataViewModel by viewModels()
-    private val navigationArgs: RateHistoryFragmentArgs by navArgs()
-    override fun getViewModel(): HistoricalDataViewModel = historicalViewModel
+    private val historicalViewModel: DetailsViewModel by viewModels()
+    private val navigationArgs: DetailsFragmentArgs by navArgs()
+    override fun getViewModel(): DetailsViewModel = historicalViewModel
     override fun getLayoutRes(): Int = R.layout.fragment_rate_history
 
     private val historicalPricesAdapter = HistoricalPricesAdapter()
+    private val popularPricesAdapter = PopularPricesAdapter()
 
     override fun init() {
         super.init()
@@ -39,8 +34,13 @@ class RateHistoryFragment : BaseFragment<HistoricalDataViewModel, FragmentRateHi
     }
 
     private fun setupRecyclerView() {
-        binding.pricesRv.apply {
-            adapter = historicalPricesAdapter
+        binding.pricesRv.adapter = historicalPricesAdapter
+        binding.popularPricesRv.adapter = popularPricesAdapter
+
+        lifecycleScope.launchWhenStarted {
+            historicalViewModel.popularExchangeRates.collect { popularExchangeRates ->
+                popularPricesAdapter.setContentList(popularExchangeRates)
+            }
         }
     }
 
@@ -82,9 +82,13 @@ class RateHistoryFragment : BaseFragment<HistoricalDataViewModel, FragmentRateHi
     override fun initListeners() {
         historicalViewModel
             .fetchData(ExchangeRateRequest(
-                navigationArgs.fromCurrency,
-                navigationArgs.toCurrency,
+                navigationArgs.fromCurrency.symbol,
+                navigationArgs.toCurrency.symbol,
             ))
+        historicalViewModel.calculatePopularCurrencies(
+            navigationArgs.fromCurrency,
+            navigationArgs.topCurrencies.toList()
+        )
     }
 
 }

@@ -42,8 +42,9 @@ class ConvertFragment : BaseFragment<ConvertViewModel, FragmentConvertBinding>()
     private fun navigateToDetails() {
         findNavController().navigate(
             ConvertFragmentDirections.actionConvertFragmentToHistoricalFragment(
-                fromCurrency = conversionViewModel.selectedFromCurrency.symbol,
-                toCurrency = conversionViewModel.selectedToCurrency.symbol
+                fromCurrency = conversionViewModel.selectedFromCurrency,
+                toCurrency = conversionViewModel.selectedToCurrency,
+                topCurrencies = conversionViewModel.popularCurrencies.value.toTypedArray()
             )
         )
     }
@@ -118,7 +119,7 @@ class ConvertFragment : BaseFragment<ConvertViewModel, FragmentConvertBinding>()
         }
     }
 
-    private fun swapSpinnerValues(){
+    private fun swapSpinnerValues() {
         val tempPositionOfFrom = binding.fromSpinner.selectedItemPosition
         val toSpinnerValuePosition = binding.toSpinner.selectedItemPosition
         binding.fromSpinner.setSelection(toSpinnerValuePosition)
@@ -130,7 +131,6 @@ class ConvertFragment : BaseFragment<ConvertViewModel, FragmentConvertBinding>()
         lifecycleScope.launchWhenStarted {
             conversionViewModel.availableCurrenciesState.collect {
                 if (it.isLoading) {
-                    Log.d("ConvertViewModel", "loading...")
                     toggleInputs(false)
                 }
 

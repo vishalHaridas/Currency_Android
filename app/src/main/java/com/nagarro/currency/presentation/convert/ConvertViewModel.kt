@@ -29,6 +29,9 @@ class ConvertViewModel @Inject constructor(
     private val _performSpinnerSwap: MutableSharedFlow<String> = MutableSharedFlow()
     val performSwap = _performSpinnerSwap.asSharedFlow()
 
+    private val _popularCurrencies: MutableStateFlow<List<Currency>> = MutableStateFlow(mutableListOf())
+    val popularCurrencies = _popularCurrencies.asStateFlow()
+
     val fromPrice: MutableStateFlow<String> = MutableStateFlow("1")
     val toPrice: MutableStateFlow<String> = MutableStateFlow("1")
 
@@ -43,7 +46,8 @@ class ConvertViewModel @Inject constructor(
                     selectedFromCurrency = firstCurrency
                     selectedToCurrency = firstCurrency
                     _uiState.value = ConvertUIState(data = currencyList)
-                } catch (e: Exception){
+                    populatePopularCurrencies()
+                } catch (e: Exception) {
                     _uiState.value = ConvertUIState(error = ConvertUIState.Error.ApiError)
                 }
             }
@@ -57,6 +61,30 @@ class ConvertViewModel @Inject constructor(
 
     }
 
+    private fun populatePopularCurrencies() {
+        val popularCurrencies: List<Currency>
+        val popularCurrencySymbols = listOf(
+            "USD",
+            "AED",
+            "EUR",
+            "HKD",
+            "EGP",
+            "AUD",
+            "INR",
+            "JPY",
+            "RUB",
+            "GBP"
+        )
+
+        popularCurrencies= _uiState.value.data?.filter {
+            it.symbol in popularCurrencySymbols
+        }!!
+
+        _popularCurrencies.value = popularCurrencies
+
+        Log.d("Convert", "val is: $popularCurrencies")
+    }
+
     fun swapPriceValues() {
         ensureHasValue(fromPrice)
         ensureHasValue(toPrice)
@@ -65,6 +93,7 @@ class ConvertViewModel @Inject constructor(
             _performSpinnerSwap.emit("swap")
         }
 
+        performSwap()
     }
 
     fun ensureFromHasValue() {

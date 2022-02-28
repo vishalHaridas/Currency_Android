@@ -2,14 +2,10 @@ package com.nagarro.currency.presentation.historical
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nagarro.currency.MainCoroutineRule
-import com.nagarro.currency.domain.model.Currency
 import com.nagarro.currency.domain.model.ExchangeRateRequest
 import com.nagarro.currency.domain.model.HistoricalExchangeRates
 import com.nagarro.currency.domain.model.Result
-import com.nagarro.currency.domain.use_case.GetAvailableRatesUseCase
 import com.nagarro.currency.domain.use_case.GetHistoricalDataUseCase
-import com.nagarro.currency.presentation.convert.ConvertUIState
-import com.nagarro.currency.presentation.convert.ConvertViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -27,7 +23,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class HistoricalDataViewModelTest {
+class DetailsViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -39,12 +35,12 @@ class HistoricalDataViewModelTest {
     @RelaxedMockK
     lateinit var useCase: GetHistoricalDataUseCase
 
-    private lateinit var viewModel: HistoricalDataViewModel
+    private lateinit var viewModel: DetailsViewModel
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        viewModel = HistoricalDataViewModel(useCase)
+        viewModel = DetailsViewModel(useCase)
     }
 
 

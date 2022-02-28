@@ -18,7 +18,7 @@ class GetHistoricalDataUseCase @Inject constructor(
         return historicalRatesRepository.getHistoricalRates(
             parameters.from,
             parameters.to,
-            30
+            10
         )
     }
 }

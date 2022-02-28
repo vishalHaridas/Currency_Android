@@ -18,16 +18,20 @@
 
     <fragment
         android:id="@+id/historicalFragment"
-        android:name="com.nagarro.currency.presentation.historical.RateHistoryFragment"
+        android:name="com.nagarro.currency.presentation.historical.DetailsFragment"
         android:label="rate_history_fragment"
         tools:layout="@layout/fragment_rate_history">
         <argument
             android:name="from_currency"
-            app:argType="string"
+            app:argType="com.nagarro.currency.domain.model.Currency"
             app:nullable="false" />
         <argument
             android:name="to_currency"
-            app:argType="string"
+            app:argType="com.nagarro.currency.domain.model.Currency"
+            app:nullable="false" />
+        <argument
+            android:name="top_currencies"
+            app:argType="com.nagarro.currency.domain.model.Currency[]"
             app:nullable="false" />
     </fragment>
 </navigation>

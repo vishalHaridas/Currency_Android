@@ -31,7 +31,7 @@ class HistoricalRatesRepositoryImpl @Inject constructor(
     private suspend fun getList(from: String, to: String, days: Int): List<HistoricalPriceDTO>{
         val listOfHistoricalPriceDTO: MutableList<HistoricalPriceDTO> = mutableListOf()
         withContext(Dispatchers.IO){
-            for (day in 1 until days){
+            for (day in 1 until (days + 1)){
                 Log.d("HistoricalViewModel", "date: ${getDateDaysBefore(day)}")
                 val result = async {
                     pricesAPI.getHistoricalPrices(
