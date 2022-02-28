@@ -158,9 +158,7 @@ class ConvertFragment : BaseFragment<ConvertViewModel, FragmentConvertBinding>()
     }
 
     private fun toggleEditText(editText: EditText, enable: Boolean) {
-        editText.isFocusable = enable
         editText.isEnabled = enable
-        editText.isCursorVisible = enable
     }
 
 

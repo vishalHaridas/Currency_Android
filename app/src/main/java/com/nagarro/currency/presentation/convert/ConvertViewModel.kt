@@ -90,12 +90,12 @@ class ConvertViewModel @Inject constructor(
 
     fun setFromCurrency(currency: Currency) {
         selectedFromCurrency = currency
-        updateTo()
+        updateFrom()
     }
 
     fun setToCurrency(currency: Currency) {
         selectedToCurrency = currency
-        updateFrom()
+        updateTo()
     }
 
     fun updateFrom() {
